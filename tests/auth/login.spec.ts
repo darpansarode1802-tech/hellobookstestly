@@ -1,6 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, chromium } from '@playwright/test';
 
-test('Verify Login Functionality - Hellobooks', async ({ page }) => {
+test('Verify Login Functionality - Hellobooks', async () => {
+
+  // Launch Browser
+  const browser = await chromium.launch({ headless: false });
+  const context = await browser.newContext();
+  const page = await context.newPage();
 
   // Navigate to Login Page
   await page.goto('https://beta.hellobooks.ai/login');
@@ -19,5 +24,10 @@ test('Verify Login Functionality - Hellobooks', async ({ page }) => {
 
   // Verify URL contains 'dashboard'
   await expect(page).toHaveURL(/dashboard/);
+
+  console.log("Login Successful - Dashboard Loaded");
+
+  // Close Browser
+  await browser.close();
 
 });
